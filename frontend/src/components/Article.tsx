@@ -1,4 +1,4 @@
-import { Avatar, Card, Tooltip } from "antd";
+import { Avatar, Card, Tooltip, Image } from "antd";
 import React from "react";
 import moment from "moment";
 import "./style/Article.css";
@@ -22,9 +22,9 @@ export const Article: React.FC<Props> = (props) => {
                 <Card
                     style={{ width: "flex" }}
                     hoverable
-                    size="default"
+                    size="small"
                     extra={
-                        <Tooltip title={moment(props.date_published).format("YYYY-MM-DD")}>
+                        <Tooltip title={moment(props.date_published).format("L")}>
                             <span>{moment(props.date_published).fromNow()}</span>
                         </Tooltip>
                     }
@@ -33,7 +33,8 @@ export const Article: React.FC<Props> = (props) => {
                 >
                     <Meta
                         className="meta-img"
-                        avatar={<Avatar className="card-avatar" src={props.image} />}
+                        // avatar={<Avatar className="card-avatar" src={props.image} />}
+                        avatar={<Image className="image" width={200} src={props.image} />}
                         // title={props.title}
                         description={props.description}
                     />
