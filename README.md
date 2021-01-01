@@ -1,1 +1,0 @@
-# aviation-news-app-frontend
