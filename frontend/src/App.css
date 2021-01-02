@@ -2,13 +2,9 @@
   display: flex;
 }
 
-.header .logo > img {
-  width: 100%;
-  background-color: red;
-}
-
 .ant-typography {
   color: "white";
+  font-weight: bold;
 }
 
 .laptop-icon {
@@ -22,4 +18,8 @@
 
 .site-layout-background {
   background: #fff;
+}
+
+html, body {
+  background-color: inherit
 }

@@ -1,77 +1,114 @@
 import React from "react";
+import moment, { Moment } from "moment";
 import api from "../utils/api";
-import { Empty, Pagination } from "antd";
-import { Article } from "./Article";
+import { Empty, Pagination, message } from "antd";
+import { Article, Props as IArticle } from "./Article";
+import { Filters, ISource } from "./Filters";
 
-interface IArticle {
-    source: string;
-    title: string;
-    link: string;
-    date_published: Date;
-    description?: string;
-    image?: string;
-    author?: string;
+export type FilterType = {
+    searchTags: string[],
+    sources: string[]
+    date_after?: Moment,
+    date_before?: Moment,
 }
 
-export default class ArticleList extends React.PureComponent {
+export default class ArticleList extends React.PureComponent<{}> {
 
+    constructor(props: {}) {
+        super(props);
+
+        this.setFilters = this.setFilters.bind(this);
+    }
     state = {
         loading: true,
         totalResults: 0,
         pageSize: 10,
         pageLink: `articles/list/`,
-        nextPageLink: "",
-        articles: Array<IArticle>()
+        articles: Array<IArticle>(),
+        sources: Array<ISource>(),
+        filters: {
+            searchTags: Array<string>(),
+            sources: Array<string>(),
+            date_after: null,
+            date_before: null,
+        }
     }
 
-    constructUrl(baseLink: string, pageNumber: number, pageSize?: number | undefined) {
-        return pageSize ? `${baseLink}?pageSize=${pageSize}&page=${pageNumber}` : `${baseLink}?page=${pageNumber}`;
+    constructCurrentUrl(page?: number, pageSize?: number) {
+        return this.state.pageLink +
+        `?page=${page || 1}` +
+        `&pageSize=${pageSize || this.state.pageSize}` +
+        `&search=${this.state.filters.searchTags ? this.state.filters.searchTags.join(',') : ''}` +
+        `&sources=${this.state.filters.sources ? this.state.filters.sources.join(',') : ''}` +
+        `&date_after=${!this.state.filters.date_after ? '' : moment(this.state.filters.date_after).format("YYYY-MM-DD")}` +
+        `&date_before=${!this.state.filters.date_before ? '' : moment(this.state.filters.date_before).format("YYYY-MM-DD")}`;
     }
 
+    setFilters(newFilters: FilterType) {
+        this.setState({filters: newFilters}, () => {
+            const url = this.constructCurrentUrl();
+            api.get(url).then(res => {
+                this.setState({
+                    totalResults: res.data.count,
+                    articles: res.data.results,
+                    sources: res.data
+                });
+            }
+            ).catch(e => {
+                console.log("Tried updating filters, didn't work!");
+            })
+        });
+    }
 
     componentDidMount() {
-        api.get(this.constructUrl(this.state.pageLink, 1, this.state.pageSize)).then(res => {
-            // console.log(res);
+            api.get(
+                this.state.pageLink, {
+                    params: {
+                        pageSize: this.state.pageSize,
+                        page: 1
+                    }}
+            ).then(res => {
             this.setState({
                 loading: false,
                 totalResults: res.data.count,
-                nextPageLink: res.data.next,
                 articles: res.data.results
             })
-            console.log(this.state);
+        }).catch(err => {
+            console.log(err);
+            message.error("Could not contact API!");
         });
     };
 
     onPaginationChange = (page: number, pageSize?: number) => {
-        const url = this.constructUrl(this.state.pageLink, page, pageSize || this.state.pageSize);
-        console.log(url);
+        const url = this.constructCurrentUrl(page, pageSize);
         api.get(url).then(res => {
             this.setState({
                 totalResults: res.data.count,
-                nextPageLink: res.data.next,
                 articles: res.data.results,
                 pageSize: pageSize
             });
+        }).catch(err => {
+            console.log(err);
+            message.error("Could not contact API!");
         });
     };
 
-    render() {
+    render() { 
         return (
             <div>
+                {/* refactor the sources api call to the filters because state is semi persistent */}
+                {this.state.sources ? 
+                    <Filters sources={this.state.sources} handler={this.setFilters}/>
+                : null}
                 {!this.state.articles || this.state.loading
-                    ? <Empty />
+                    ? <Empty description={false} />
                     : (
                         <div>
                             {
-                                this.state.articles.map(a => {
+                                this.state.articles.map((article, idx) => {
                                     return <Article
-                                        date_published={a.date_published}
-                                        link={a.link}
-                                        source={a.source}
-                                        title={a.title}
-                                        image={a.image}
-                                        author={a.author}
-                                        description={a.description}
+                                        key={idx}
+                                        {...article}
                                     />
                                 })
                             }

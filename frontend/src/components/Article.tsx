@@ -5,7 +5,7 @@ import "./style/Article.css";
 
 const { Meta } = Card;
 
-interface Props {
+export interface Props {
     source: string;
     title: string;
     link: string;
@@ -13,12 +13,15 @@ interface Props {
     description?: string;
     image?: string;
     author?: string;
-}
+    source_icon?: string;
+    source_name?: string;
+};
 
 export const Article: React.FC<Props> = (props) => {
+    
     return (
         <div className="card">
-            <a href={props.link} target="_blank" rel="noreferrer">
+            
                 <Card
                     style={{ width: "flex" }}
                     hoverable
@@ -31,15 +34,25 @@ export const Article: React.FC<Props> = (props) => {
                     title={props.title}
 
                 >
-                    <Meta
-                        className="meta-img"
-                        // avatar={<Avatar className="card-avatar" src={props.image} />}
-                        avatar={<Image className="image" width={200} src={props.image} />}
-                        // title={props.title}
-                        description={props.description}
-                    />
+                    <a href={props.link} target="_blank" rel="noreferrer">
+                        <Meta
+                            className="meta-img"
+                            avatar={<Image className="image" width={200} src={props.image} placeholder={true} preview={false} />}
+                            description={props.description}
+                        />
+                    </a>
+                    { props.source_icon && props.source_name ?
+                        (
+                            <a href={`https://${props.source_name}`} target="_blank" rel="noreferrer">
+                            <Tooltip title={props.source_name}>
+                            <Avatar className="source-avatar" size="large" src={<Image src={props.source_icon} preview={false}/>} />
+                            </Tooltip>
+                            </a>
+                        )
+                        : null
+                    }
                 </Card>
-            </a>
+            
         </div>
     );
 };
