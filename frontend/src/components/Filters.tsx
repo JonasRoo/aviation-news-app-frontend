@@ -6,7 +6,6 @@ import { FilterType } from './ArticleList';
 import './style/Filters.css';
 import { SourcesFilter } from './SourcesFilter';
 
-const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 export interface ISource {
@@ -30,6 +29,12 @@ interface State {
 }
 
 export class Filters extends React.PureComponent<Props, State> {
+	constructor(props: Props) {
+		super(props);
+
+		this.selectedSourcesUpdateHandler = this.selectedSourcesUpdateHandler.bind(this);
+	}
+
 	state = {
 		sources: this.props.sources,
 		searchTags: Array<string>(),

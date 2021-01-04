@@ -18,7 +18,6 @@ interface Props {
 export const SourcesFilter: React.FC<Props> = (props) => {
 	const [ availableSources, setAvailableSources ] = useState<ISource[]>([]);
 	useEffect(() => {
-		// console.log('calling!');
 		api
 			.get('articles/sources/')
 			.then((res) => {
@@ -36,12 +35,17 @@ export const SourcesFilter: React.FC<Props> = (props) => {
 			style={{ minWidth: 120 }}
 			allowClear={true}
 			placeholder="Sources..."
-			onChange={(values: string[], _) => props.sourcesUpdateHandler(values)}
-			// bug here: Option's aren't loaded to the menu
+			onChange={(values: string[], _) => {
+				props.sourcesUpdateHandler(
+					values.map((e) => {
+						return e.split(':')[0];
+					})
+				);
+			}}
 		>
 			{availableSources.map((source: ISource) => {
 				return (
-					<Option key={`source-${source.pk}`} value={source.base_url}>
+					<Option key={`source-${source.pk}`} value={`${source.pk}: ${source.base_url}`}>
 						{source.name}
 					</Option>
 				);

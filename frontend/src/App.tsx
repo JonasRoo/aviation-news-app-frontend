@@ -1,14 +1,12 @@
 import AppHeader from './components/Header';
 import 'antd/dist/antd.css';
 import React from 'react';
-import { Layout, Menu, Tabs } from 'antd';
-import { LaptopOutlined, UserOutlined } from '@ant-design/icons';
+import { Layout, Tabs } from 'antd';
 import './App.css';
-import SubMenu from 'antd/lib/menu/SubMenu';
 import ArticleList from './components/ArticleList';
 
 const { TabPane } = Tabs;
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 export default class App extends React.Component<{}> {
 	render() {
@@ -16,7 +14,7 @@ export default class App extends React.Component<{}> {
 			<Layout>
 				<AppHeader />
 				<Layout>
-					<Sider width={200} className="site-layout-background">
+					{/* <Sider width={200} className="site-layout-background">
 						<Menu
 							mode="inline"
 							defaultSelectedKeys={[ '1' ]}
@@ -33,7 +31,7 @@ export default class App extends React.Component<{}> {
 								Item
 							</Menu.Item>
 						</Menu>
-					</Sider>
+					</Sider> */}
 					<Layout style={{ padding: '0 24px 24px' }}>
 						<Tabs defaultActiveKey="1" animated={{ inkBar: true, tabPane: true }}>
 							<TabPane tab={<span>Articles</span>} key="1">

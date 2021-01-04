@@ -15,7 +15,6 @@ export type FilterType = {
 export default class ArticleList extends React.PureComponent<{}> {
 	constructor(props: {}) {
 		super(props);
-
 		this.setFilters = this.setFilters.bind(this);
 	}
 	state = {
@@ -73,7 +72,8 @@ export default class ArticleList extends React.PureComponent<{}> {
 				params: {
 					pageSize: this.state.pageSize,
 					page: 1
-				}
+				},
+				withCredentials: true
 			})
 			.then((res) => {
 				this.setState({
@@ -108,7 +108,6 @@ export default class ArticleList extends React.PureComponent<{}> {
 	render() {
 		return (
 			<div>
-				{/* refactor the sources api call to the filters because state is semi persistent */}
 				{this.state.sources ? <Filters sources={this.state.sources} handler={this.setFilters} /> : null}
 				{!this.state.articles || this.state.loading ? (
 					<Empty description={false} />
