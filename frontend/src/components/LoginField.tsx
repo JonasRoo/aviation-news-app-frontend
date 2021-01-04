@@ -1,7 +1,7 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Button, Form, Popover, Input, message } from 'antd';
 import React, { useEffect, useState } from 'react';
-import api, { setHeaders, checkIfLoggedIn } from '../utils/api';
+import api, { setHeaders, getCurrentUser } from '../utils/api';
 
 interface ILoginInfo {
 	username: string;
@@ -16,14 +16,22 @@ const LoginField: React.FC<Props> = (props) => {
 	const [ loggedIn, setLoggedIn ] = useState<boolean>(false);
 	const [ userName, setUserName ] = useState<string | undefined>();
 
-	useEffect(() => {
-		// make a call to the `auth/user` endpoint and check if we get a valid response
-		checkIfLoggedIn((loggedIn) => {
-			setLoggedIn(loggedIn);
-			props.loginHandler(loggedIn);
-		});
-		console.log(loggedIn);
-	}, []);
+	useEffect(
+		() => {
+			// make a call to the `auth/user/` endpoint and check if we get a valid response
+			getCurrentUser((user) => {
+				console.log('user=', user);
+				const logged = user !== undefined ? true : false;
+				setLoggedIn(logged);
+				props.loginHandler(logged);
+				if (user) {
+					setUserName(user.username);
+				}
+			});
+			console.log(loggedIn);
+		},
+		[ loggedIn ]
+	);
 
 	const setAuthCredentials = (token?: string, username?: string): void => {
 		if (!token) {
@@ -39,11 +47,11 @@ const LoginField: React.FC<Props> = (props) => {
 		}
 	};
 
-	const handleLoginSubmit = (values: ILoginInfo) => {
+	const handleLoginSubmit = (values: ILoginInfo): void => {
 		api
 			.post('/auth/login/', values)
 			.then((res) => {
-				setAuthCredentials(res.data.token, res.data.username);
+				setAuthCredentials(res.data.token, res.data.user.username);
 				props.loginHandler(true);
 			})
 			.catch((_) => {
@@ -105,16 +113,16 @@ const LoginField: React.FC<Props> = (props) => {
 	);
 
 	const buttonWhenLoggedIn = (
-		<div>
-			<span style={{ paddingRight: '5px' }}>{`Welcome back, ${userName}!`}</span>
+		<div style={{ justifyContent: 'right', position: 'absolute', right: '150px' }}>
+			<span style={{ marginRight: '20px', color: 'white' }}>{`Welcome back, ${userName}!`}</span>
 			<Button
 				type="primary"
 				shape="round"
 				onClick={handleLogoutSubmit}
 				icon={<UserOutlined twoToneColor="#52c41a" />}
 				style={{
-					position: 'absolute',
-					right: '150px',
+					position: 'relative',
+					// right: '150px',
 					height: '40px',
 					top: '20%'
 				}}

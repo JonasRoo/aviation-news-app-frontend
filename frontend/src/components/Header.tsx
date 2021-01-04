@@ -1,8 +1,7 @@
 import PlaneIcon from '../icons/plane.png';
 import { Layout, Image } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import Title from 'antd/lib/typography/Title';
-// import GoogleLoginField from './GoogleLoginField';
 import LoginField from './LoginField';
 
 const { Header } = Layout;
@@ -32,7 +31,9 @@ const AppHeader: React.FC<Props> = (props) => {
 					padding: '10px'
 				}}
 			/>
-			<LoginField loginHandler={handleLogin} />
+			<div style={{ backgroundColor: 'red' }}>
+				<LoginField loginHandler={handleLogin} />
+			</div>
 		</Header>
 	);
 };

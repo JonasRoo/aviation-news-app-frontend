@@ -2,14 +2,11 @@ import AppHeader from './components/Header';
 import 'antd/dist/antd.css';
 import React from 'react';
 import { MenuInfo } from 'rc-menu/lib/interface';
-import { Layout, Menu, Tabs } from 'antd';
+import { Layout, Menu } from 'antd';
 import './App.css';
 import ArticleList from './components/ArticleList';
 import LoginRequiredWrapper from './components/wrappers/LoginRequiredWrapper';
 import { setHeaders } from './utils/api';
-
-const { TabPane } = Tabs;
-const { Content } = Layout;
 
 type activeContent = 'articleList' | 'notImplemented';
 

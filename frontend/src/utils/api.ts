@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { IUser } from './types';
 
 const api = axios.create({
 	baseURL: 'http://127.0.0.1:8000/api/v1/'
@@ -15,6 +16,25 @@ export const checkIfLoggedIn = (callback: (isLoggedIn: boolean) => void): void =
 		})
 		.catch((_) => {
 			callback(false);
+		});
+};
+
+export const getCurrentUser = (callback: (user?: IUser) => void): void => {
+	if (!api.defaults.headers.common['Authorization']) {
+		callback();
+	}
+	api
+		.get('/auth/user/')
+		.then((res) => {
+			console.log(res);
+			callback({
+				id: res.data.id,
+				username: res.data.username,
+				email: res.data.email
+			});
+		})
+		.catch((_) => {
+			callback();
 		});
 };
 
