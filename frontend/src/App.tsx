@@ -1,66 +1,81 @@
 import AppHeader from './components/Header';
 import 'antd/dist/antd.css';
 import React from 'react';
-import { Layout, Tabs } from 'antd';
+import { MenuInfo } from 'rc-menu/lib/interface';
+import { Layout, Menu, Tabs } from 'antd';
 import './App.css';
 import ArticleList from './components/ArticleList';
+import LoginRequiredWrapper from './components/wrappers/LoginRequiredWrapper';
+import { setHeaders } from './utils/api';
 
 const { TabPane } = Tabs;
 const { Content } = Layout;
 
-export default class App extends React.Component<{}> {
+type activeContent = 'articleList' | 'notImplemented';
+
+interface IState {
+	content: activeContent;
+	isLoggedIn: boolean;
+}
+
+export default class App extends React.Component<{}, IState> {
+	constructor(props: {}) {
+		super(props);
+
+		this.state = {
+			content: 'articleList',
+			isLoggedIn: true
+		};
+		setHeaders();
+		this.handleMenuClick = this.handleMenuClick.bind(this);
+		this.handleLogged = this.handleLogged.bind(this);
+	}
+
+	handleMenuClick(e: MenuInfo): void {
+		this.setState({ content: e.key as activeContent });
+	}
+
+	handleLogged(logged: boolean) {
+		this.setState({ isLoggedIn: logged });
+	}
+
+	getActiveContent() {
+		switch (this.state.content) {
+			case 'articleList': {
+				return (
+					<div className="main-content">
+						<LoginRequiredWrapper loggedIn={this.state.isLoggedIn} content={<ArticleList />} />
+					</div>
+				);
+			}
+			case 'notImplemented': {
+				return (
+					<div className="main-content">
+						<div>Hello world!</div>
+					</div>
+				);
+			}
+		}
+	}
+
 	render() {
 		return (
 			<Layout>
-				<AppHeader />
+				<AppHeader loginHandler={this.handleLogged} />
 				<Layout>
-					{/* <Sider width={200} className="site-layout-background">
-						<Menu
-							mode="inline"
-							defaultSelectedKeys={[ '1' ]}
-							defaultOpenKeys={[ 'sub1' ]}
-							style={{ height: '100%', borderRight: 0 }}
+					<Menu mode="horizontal" selectedKeys={[ this.state.content ]}>
+						<Menu.Item
+							title="View the list of currently available articles."
+							key="articleList"
+							onClick={this.handleMenuClick}
 						>
-							<SubMenu key="sub1" icon={<UserOutlined />} title="subnav 1">
-								<Menu.Item key="1">option1</Menu.Item>
-								<Menu.Item key="2">option2</Menu.Item>
-								<Menu.Item key="3">option3</Menu.Item>
-								<Menu.Item key="4">option4</Menu.Item>
-							</SubMenu>
-							<Menu.Item key="item2" icon={<LaptopOutlined />} title="item">
-								Item
-							</Menu.Item>
-						</Menu>
-					</Sider> */}
-					<Layout style={{ padding: '0 24px 24px' }}>
-						<Tabs defaultActiveKey="1" animated={{ inkBar: true, tabPane: true }}>
-							<TabPane tab={<span>Articles</span>} key="1">
-								<Content
-									className="site-layout-background"
-									style={{
-										padding: 24,
-										margin: 0,
-										minHeight: 280
-									}}
-								>
-									<ArticleList />
-								</Content>
-							</TabPane>
-							<TabPane tab={<span>Stats</span>} key="2">
-								<Content
-									className="site-layout-background"
-									style={{
-										padding: 24,
-										margin: 0,
-										minHeight: 280,
-										transition: 'height 0.3s ease'
-									}}
-								>
-									Hello
-								</Content>
-							</TabPane>
-						</Tabs>
-					</Layout>
+							Article list
+						</Menu.Item>
+						<Menu.Item title="Hello two!" key="notImplemented" onClick={this.handleMenuClick}>
+							Analysis
+						</Menu.Item>
+					</Menu>
+					<Layout style={{ padding: '12px 24px 24px' }}>{this.getActiveContent()}</Layout>
 				</Layout>
 			</Layout>
 		);

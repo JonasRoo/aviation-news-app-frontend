@@ -2,6 +2,7 @@ import { Button, Popover } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline, GoogleLogout } from 'react-google-login';
+import { useCookies } from 'react-cookie';
 
 const GoogleLoginField: React.FC<{}> = () => {
 	const [ loggedIn, setLoggedIn ] = useState<boolean>(false);

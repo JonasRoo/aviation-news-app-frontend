@@ -67,6 +67,7 @@ export default class ArticleList extends React.PureComponent<{}> {
 	}
 
 	componentDidMount() {
+		console.log(api.defaults.headers);
 		api
 			.get(this.state.pageLink, {
 				params: {

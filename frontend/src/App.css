@@ -1,25 +1,30 @@
 .header {
-  display: flex;
+	display: flex;
+}
+
+.main-content {
+	transition: 0.5s;
 }
 
 .ant-typography {
-  color: "white";
-  font-weight: bold;
+	color: "white";
+	font-weight: bold;
 }
 
 .laptop-icon {
-  background-color: red;
+	background-color: red;
 }
 
 .ant-row-rtl #components-layout-demo-top-side-2 .logo {
-  float: right;
-  margin: 16px 0 16px 24px;
+	float: right;
+	margin: 16px 0 16px 24px;
 }
 
 .site-layout-background {
-  background: #fff;
+	background: #fff;
 }
 
-html, body {
-  background-color: inherit
+html,
+body {
+	background-color: inherit;
 }
