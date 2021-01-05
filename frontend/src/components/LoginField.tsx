@@ -1,5 +1,5 @@
 import { UserOutlined } from '@ant-design/icons';
-import { Button, Form, Popover, Input, message } from 'antd';
+import { Button, Form, Popover, Input, message, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import api, { setHeaders, getCurrentUser } from '../utils/api';
 
@@ -115,21 +115,23 @@ const LoginField: React.FC<Props> = (props) => {
 
 	const buttonWhenLoggedIn = (
 		<div style={{ justifyContent: 'right', position: 'absolute', right: '150px' }}>
-			<span style={{ marginRight: '20px', color: 'white' }}>{`Welcome back, ${userName}!`}</span>
-			<Button
-				type="primary"
-				shape="round"
-				onClick={handleLogoutSubmit}
-				icon={<UserOutlined twoToneColor="#52c41a" />}
-				style={{
-					position: 'relative',
-					right: '10%',
-					height: '40px',
-					top: '20%'
-				}}
-			>
-				Logout
-			</Button>
+			<Space size="large" direction="horizontal">
+				<span style={{ color: 'white' }}>{`Welcome back, ${userName}!`}</span>
+				<Button
+					type="primary"
+					shape="round"
+					onClick={handleLogoutSubmit}
+					icon={<UserOutlined twoToneColor="#52c41a" />}
+					style={{
+						position: 'relative',
+						right: '10%',
+						height: '40px',
+						top: '20%'
+					}}
+				>
+					Logout
+				</Button>
+			</Space>
 		</div>
 	);
 
