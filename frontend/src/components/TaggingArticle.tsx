@@ -1,4 +1,4 @@
-import { Card, Popover } from 'antd';
+import { Card, Popover, Space } from 'antd';
 import React from 'react';
 import moment from 'moment';
 import '../components/style/TaggingArticle.css';
@@ -13,8 +13,6 @@ export interface Props {
 	link: string;
 	date_published: Date;
 	description?: string;
-	image?: string;
-	author?: string;
 	source_name?: string;
 }
 
@@ -26,7 +24,12 @@ export const TaggingArticle: React.FC<Props> = (props) => {
 	);
 	const extraField = (
 		<Popover content={titleField}>
-			<InfoCircleOutlined />
+			<Space>
+				<a href={props.link} target="_blank" rel="noreferrer">
+					link
+				</a>
+				<InfoCircleOutlined />
+			</Space>
 		</Popover>
 	);
 
