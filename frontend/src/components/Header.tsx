@@ -16,8 +16,8 @@ const AppHeader: React.FC<Props> = (props) => {
 	};
 
 	return (
-		<Header className="header" style={{ position: 'relative', display: 'flex', flexDirection: 'row' }}>
-			<Title style={{ color: 'white' }}>My App</Title>
+		<Header className="header" style={{ position: 'relative', display: 'flex', flexDirection: 'row', width: '100%' }}>
+			<Title style={{ color: 'white', display: 'flex', whiteSpace: 'nowrap' }}>AV Insights</Title>
 			<Image
 				preview={false}
 				src={PlaneIcon}

@@ -7,8 +7,9 @@ import './App.css';
 import ArticleList from './components/ArticleList';
 import LoginRequiredWrapper from './components/wrappers/LoginRequiredWrapper';
 import { setHeaders } from './utils/api';
+import TaggerInterface from './components/containers/TaggerInterface';
 
-type activeContent = 'articleList' | 'notImplemented';
+type activeContent = 'articleList' | 'notImplemented' | 'taggerInterface';
 
 interface IState {
 	content: activeContent;
@@ -20,8 +21,8 @@ export default class App extends React.Component<{}, IState> {
 		super(props);
 
 		this.state = {
-			content: 'articleList',
-			isLoggedIn: true
+			content: 'taggerInterface',
+			isLoggedIn: false
 		};
 		setHeaders();
 		this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -45,6 +46,13 @@ export default class App extends React.Component<{}, IState> {
 					</div>
 				);
 			}
+			case 'taggerInterface': {
+				return (
+					<div className="main-content">
+						<TaggerInterface />
+					</div>
+				);
+			}
 			case 'notImplemented': {
 				return (
 					<div className="main-content">
@@ -60,7 +68,7 @@ export default class App extends React.Component<{}, IState> {
 			<Layout>
 				<AppHeader loginHandler={this.handleLogged} />
 				<Layout>
-					<Menu mode="horizontal" selectedKeys={[ this.state.content ]}>
+					<Menu mode="horizontal" theme="light" selectedKeys={[ this.state.content ]}>
 						<Menu.Item
 							title="View the list of currently available articles."
 							key="articleList"
@@ -70,6 +78,9 @@ export default class App extends React.Component<{}, IState> {
 						</Menu.Item>
 						<Menu.Item title="Hello two!" key="notImplemented" onClick={this.handleMenuClick}>
 							Analysis
+						</Menu.Item>
+						<Menu.Item title="Hello two!" key="taggerInterface" onClick={this.handleMenuClick}>
+							Tagger Dashboard
 						</Menu.Item>
 					</Menu>
 					<Layout style={{ padding: '12px 24px 24px' }}>{this.getActiveContent()}</Layout>

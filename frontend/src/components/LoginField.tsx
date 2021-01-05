@@ -30,6 +30,7 @@ const LoginField: React.FC<Props> = (props) => {
 			});
 			console.log(loggedIn);
 		},
+		// eslint-disable-next-line
 		[ loggedIn ]
 	);
 
@@ -102,7 +103,7 @@ const LoginField: React.FC<Props> = (props) => {
 				icon={<UserOutlined twoToneColor="#52c41a" />}
 				style={{
 					position: 'absolute',
-					right: '150px',
+					right: '10%',
 					height: '40px',
 					top: '20%'
 				}}
@@ -122,7 +123,7 @@ const LoginField: React.FC<Props> = (props) => {
 				icon={<UserOutlined twoToneColor="#52c41a" />}
 				style={{
 					position: 'relative',
-					// right: '150px',
+					right: '10%',
 					height: '40px',
 					top: '20%'
 				}}
