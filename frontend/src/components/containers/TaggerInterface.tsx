@@ -8,7 +8,7 @@ export default class TaggerInterface extends React.PureComponent<{}> {
 			<div>
 				<PageHeader
 					title="Tagging session: 22325zsd8a8w"
-					ghost={false}
+					// ghost={false}
 					extra={[ <Button key="prev">Previous</Button>, <Button key="next">Next</Button> ]}
 				>
 					<Descriptions />

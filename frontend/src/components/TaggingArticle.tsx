@@ -1,4 +1,4 @@
-import { Avatar, Card, Tooltip, Image, Popover } from 'antd';
+import { Card, Popover } from 'antd';
 import React from 'react';
 import moment from 'moment';
 import '../components/style/TaggingArticle.css';
