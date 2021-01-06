@@ -10,9 +10,9 @@ export interface IArticleResults extends AxiosResponse {
 }
 
 const endpointUrl = 'articles/list/';
-const pureArticleListQueryName = 'pureArticleData';
-const fetchArticles = async (queryParams: FilterType): Promise<IArticleResults> => {
-	const response = await api.get(endpointUrl, {
+
+const fetchArticles = async (queryParams: FilterType, hearted: boolean = false): Promise<IArticleResults> => {
+	const response = await api.get(hearted ? endpointUrl + 'hearted/' : endpointUrl, {
 		params: {
 			page: queryParams.page,
 			pageSize: queryParams.pageSize,
@@ -26,4 +26,4 @@ const fetchArticles = async (queryParams: FilterType): Promise<IArticleResults> 
 	return response.data as IArticleResults;
 };
 
-export { pureArticleListQueryName, fetchArticles };
+export { fetchArticles };

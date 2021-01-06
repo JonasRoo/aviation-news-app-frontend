@@ -1,5 +1,5 @@
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { Button, Descriptions, Divider, PageHeader } from 'antd';
+import { Button, Descriptions, Divider, PageHeader, Space } from 'antd';
 import React from 'react';
 import { TaggingArticle } from '../TaggingArticle';
 import TagTypeGrid from '../TagTypeGrid';
@@ -41,18 +41,23 @@ export default class TaggerInterface extends React.PureComponent<{}> {
 				>
 					<Descriptions />
 				</PageHeader>
-				<div style={{ maxWidth: '50%' }}>
-					<TaggingArticle
-						title="StandardAero to be acquired by Carlyle Group"
-						description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-						link="https://google.com"
-						date_published={new Date()}
-						source="https://google.com"
-						source_name="disneyplus"
-					/>
-				</div>
-				<Divider type="vertical" />
-				<TagTypeGrid types={this.typeDummyData} />
+				<Space direction="horizontal">
+					<div style={{ maxWidth: '50%' }}>
+						<TaggingArticle
+							title="Company A to be acquired by Company B"
+							description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+							link="https://google.com"
+							date_published={new Date()}
+							source="https://google.com"
+							source_name="News Outlet A"
+						/>
+					</div>
+					<div>
+						<Divider type="vertical" />
+
+						<TagTypeGrid types={this.typeDummyData} />
+					</div>
+				</Space>
 			</div>
 		);
 	}

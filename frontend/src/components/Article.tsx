@@ -18,11 +18,12 @@ export interface Props {
 	author?: string;
 	source_icon?: string;
 	source_name?: string;
+	hearted?: boolean;
 }
 
 export const Article: React.FC<Props> = (props) => {
-	const [ heartVisible, setHeartVisible ] = useState<boolean>(false);
-	const [ isHearted, setIsHearted ] = useState<boolean>(false);
+	const [ inHover, setInHover ] = useState<boolean>(false);
+	const [ isHearted, setIsHearted ] = useState<boolean>(props.hearted || false);
 
 	const heartButtonHandler = (): void => {
 		api
@@ -45,20 +46,30 @@ export const Article: React.FC<Props> = (props) => {
 		</Space>
 	);
 
-	const heartContent = isHearted ? (
-		<Tooltip title="Remove heart">
-			<Button icon={<StopTwoTone twoToneColor="#eb2f96" />} shape="circle" block onClick={heartButtonHandler} />
-		</Tooltip>
-	) : (
-		<Tooltip title="Heart this article">
-			<Button
-				className="heart-icon"
-				icon={<HeartTwoTone twoToneColor="#eb2f96" />}
-				shape="circle"
-				block
-				onClick={heartButtonHandler}
-			/>
-		</Tooltip>
+	const heartContent = (
+		<div className="tooltip">
+			{isHearted ? (
+				<Tooltip title="Remove heart">
+					<Button
+						className="heart-button"
+						icon={<StopTwoTone twoToneColor="#eb2f96" />}
+						shape="circle"
+						block
+						onClick={heartButtonHandler}
+					/>
+				</Tooltip>
+			) : (
+				<Tooltip title="Heart this article">
+					<Button
+						className="heart-button"
+						icon={<HeartTwoTone twoToneColor="#eb2f96" />}
+						shape="circle"
+						block
+						onClick={heartButtonHandler}
+					/>
+				</Tooltip>
+			)}
+		</div>
 	);
 
 	return (
@@ -66,10 +77,10 @@ export const Article: React.FC<Props> = (props) => {
 			<Card
 				style={{ width: 'flex' }}
 				hoverable
-				onMouseEnter={() => setHeartVisible(true)}
-				onMouseLeave={() => setHeartVisible(false)}
+				onMouseEnter={() => setInHover(true)}
+				onMouseLeave={() => setInHover(false)}
 				size="small"
-				extra={heartVisible ? heartContent : dateContent}
+				extra={inHover ? heartContent : dateContent}
 				title={props.title}
 			>
 				<a href={props.link} target="_blank" rel="noreferrer">

@@ -1,7 +1,6 @@
-import PlaneIcon from '../icons/plane.png';
+import Logo from '../icons/logo.png';
 import { Layout, Image } from 'antd';
 import React from 'react';
-import Title from 'antd/lib/typography/Title';
 import LoginField from './LoginField';
 
 const { Header } = Layout;
@@ -16,24 +15,17 @@ const AppHeader: React.FC<Props> = (props) => {
 	};
 
 	return (
-		<Header className="header" style={{ position: 'relative', display: 'flex', flexDirection: 'row', width: '100%' }}>
-			<Title style={{ color: 'white', display: 'flex', whiteSpace: 'nowrap' }}>AV Insights</Title>
+		<Header className="header" style={{ position: 'relative' }}>
 			<Image
-				preview={false}
-				src={PlaneIcon}
+				src={Logo}
 				style={{
-					objectFit: 'contain',
 					maxWidth: '100%',
 					maxHeight: '100%',
 					display: 'block',
-					width: 'auto',
-					height: 'auto',
-					padding: '10px'
+					width: 'auto'
 				}}
 			/>
-			<div style={{ backgroundColor: 'red' }}>
-				<LoginField loginHandler={handleLogin} />
-			</div>
+			<LoginField loginHandler={handleLogin} />
 		</Header>
 	);
 };

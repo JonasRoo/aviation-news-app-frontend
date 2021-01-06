@@ -18,8 +18,18 @@
 	border-color: coral;
 }
 
-.heart-icon:hover {
+.heart-button {
+	margin: -10px;
+}
+
+.tooltip {
+	padding-right: 10px;
+}
+
+.heart-button:hover {
 	animation: push 0.3s linear 1;
+	margin-top: -5px;
+	margin-bottom: -5px;
 }
 
 @keyframes push {

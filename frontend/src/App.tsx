@@ -59,7 +59,7 @@ export default class App extends React.Component<{}, IState> {
 			case 'notImplemented': {
 				return (
 					<div className="main-content">
-						<div>Hello world!</div>
+						<div>There is nothing here...</div>
 					</div>
 				);
 			}

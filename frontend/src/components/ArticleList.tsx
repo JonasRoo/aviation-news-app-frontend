@@ -29,6 +29,10 @@ const ArticleList: React.FC<{}> = () => {
 		search: Array<string>(),
 		sources: Array<string>()
 	});
+
+	const [ onlyHearted, setOnlyHearted ] = useState<boolean>(false);
+	const [ forceRefetchVar, setForceRefetchVar ] = useState<number>(Math.random());
+
 	const updateFilters = (newFilters: FilterFieldType): void => {
 		setFilters({
 			...filters,
@@ -36,19 +40,30 @@ const ArticleList: React.FC<{}> = () => {
 		});
 	};
 
-	const onPaginationChange = (page: number, pageSize?: number) => {
+	const updateOnlyHearted = (hearted: boolean): void => {
+		setOnlyHearted(hearted);
+		setForceRefetchVar(Math.random());
+	};
+
+	const onPaginationChange = (page: number, pageSize?: number): void => {
 		setFilters({
 			...filters,
 			page: page,
 			pageSize: pageSize || filters.pageSize
 		});
 	};
-	const { isLoading, data, error } = useQuery([ 'articles', filters ], () => fetchArticles(filters), {
-		keepPreviousData: true,
-		staleTime: 3.6e6 // an hour
-	});
+	const { isLoading, data, error } = useQuery(
+		[ 'articles', filters, onlyHearted, forceRefetchVar ],
+		() => fetchArticles(filters, onlyHearted),
+		{
+			keepPreviousData: true,
+			retry: 1,
+			cacheTime: 0,
+			staleTime: 3.6e6 // an hour
+		}
+	);
 
-	const filterElement = <Filters handler={updateFilters} />;
+	const filterElement = <Filters handler={updateFilters} heartedHandler={updateOnlyHearted} />;
 
 	const emptyElement = (
 		<div>
@@ -75,7 +90,10 @@ const ArticleList: React.FC<{}> = () => {
 		<div>
 			<div>{filterElement}</div>
 			{data.results.map((article, idx) => {
-				return <Article key={idx} {...article} />;
+				if (!onlyHearted || (onlyHearted && article.hearted)) {
+					return <Article key={idx} {...article} />;
+				}
+				return null;
 			})}
 			<Pagination
 				total={data.count}

@@ -1,10 +1,11 @@
-import { Form, Select, DatePicker } from 'antd';
+import { Form, Select, DatePicker, Checkbox } from 'antd';
 import { RangeValue } from 'rc-picker/lib/interface';
 import moment from 'moment';
 import React from 'react';
 import { FilterFieldType } from './ArticleList';
 import './style/Filters.css';
 import { SourcesFilter } from './SourcesFilter';
+import { HeartTwoTone } from '@ant-design/icons';
 
 const { RangePicker } = DatePicker;
 
@@ -17,6 +18,7 @@ export interface ISource {
 
 interface Props {
 	handler: (newFilters: FilterFieldType) => void;
+	heartedHandler: (onlyHearted: boolean) => void;
 }
 
 interface State {
@@ -25,6 +27,7 @@ interface State {
 	selectedSources: string[];
 	date_after?: moment.Moment;
 	date_before?: moment.Moment;
+	onlyhearted?: boolean;
 }
 
 export class Filters extends React.PureComponent<Props, State> {
@@ -39,7 +42,8 @@ export class Filters extends React.PureComponent<Props, State> {
 		searchTags: Array<string>(),
 		selectedSources: Array<string>(),
 		date_after: undefined,
-		date_before: undefined
+		date_before: undefined,
+		onlyHearted: false
 	};
 
 	selectedSourcesUpdateHandler(sources: string[]) {
@@ -93,6 +97,9 @@ export class Filters extends React.PureComponent<Props, State> {
 					}}
 				/>
 				<SourcesFilter sourcesUpdateHandler={this.selectedSourcesUpdateHandler} />
+				<Checkbox onChange={(e) => this.props.heartedHandler(e.target.checked)}>
+					Only show "<HeartTwoTone twoToneColor="#eb2f96" />" articles
+				</Checkbox>
 			</Form>
 		);
 	}
