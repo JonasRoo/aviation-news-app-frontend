@@ -1,6 +1,7 @@
 import { Select } from 'antd';
-import React, { useEffect, useState } from 'react';
-import api from '../utils/api';
+import React from 'react';
+import { useQuery } from 'react-query';
+import { fetchSources } from "./api/queries/sources";
 
 const { Option } = Select;
 
@@ -16,18 +17,16 @@ interface Props {
 }
 
 export const SourcesFilter: React.FC<Props> = (props) => {
-	const [ availableSources, setAvailableSources ] = useState<ISource[]>([]);
-	useEffect(() => {
-		api
-			.get('articles/sources/')
-			.then((res) => {
-				setAvailableSources(res.data);
-			})
-			.catch((e) => {
-				console.log(e);
-			});
-	}, []);
 
+	const { isLoading, error, data } = useQuery("sources", fetchSources, {
+		keepPreviousData: true,
+		staleTime: 3.6e6 // an hour
+	});
+
+	if (isLoading || error || !data) {
+		return <div></div>
+	}
+	
 	return (
 		<Select
 			mode="multiple"
@@ -43,7 +42,7 @@ export const SourcesFilter: React.FC<Props> = (props) => {
 				);
 			}}
 		>
-			{availableSources.map((source: ISource) => {
+			{data?.results.map((source: ISource) => {
 				return (
 					<Option key={`source-${source.pk}`} value={`${source.pk}: ${source.base_url}`}>
 						{source.name}

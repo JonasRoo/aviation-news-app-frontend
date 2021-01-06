@@ -2,7 +2,7 @@ import { Form, Select, DatePicker } from 'antd';
 import { RangeValue } from 'rc-picker/lib/interface';
 import moment from 'moment';
 import React from 'react';
-import { FilterType } from './ArticleList';
+import { FilterFieldType } from './ArticleList';
 import './style/Filters.css';
 import { SourcesFilter } from './SourcesFilter';
 
@@ -16,8 +16,7 @@ export interface ISource {
 }
 
 interface Props {
-	sources: ISource[];
-	handler: (newFilters: FilterType) => void;
+	handler: (newFilters: FilterFieldType) => void;
 }
 
 interface State {
@@ -36,7 +35,7 @@ export class Filters extends React.PureComponent<Props, State> {
 	}
 
 	state = {
-		sources: this.props.sources,
+		sources: [],
 		searchTags: Array<string>(),
 		selectedSources: Array<string>(),
 		date_after: undefined,
@@ -63,7 +62,7 @@ export class Filters extends React.PureComponent<Props, State> {
 	updateSearchFilters(newFilters: any) {
 		this.setState(newFilters, () =>
 			this.props.handler({
-				searchTags: this.state.searchTags,
+				search: this.state.searchTags,
 				sources: this.state.selectedSources,
 				date_after: this.state.date_after,
 				date_before: this.state.date_before

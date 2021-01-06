@@ -20,15 +20,15 @@ const LoginField: React.FC<Props> = (props) => {
 		() => {
 			// make a call to the `auth/user/` endpoint and check if we get a valid response
 			getCurrentUser((user) => {
-				console.log('user=', user);
-				const logged = user !== undefined ? true : false;
+				// console.log('user=', user);
+				const logged = !!user;
 				setLoggedIn(logged);
 				props.loginHandler(logged);
 				if (user) {
 					setUserName(user.username);
 				}
 			});
-			console.log(loggedIn);
+			// console.log(loggedIn);
 		},
 		// eslint-disable-next-line
 		[ loggedIn ]

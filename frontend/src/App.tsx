@@ -1,6 +1,7 @@
 import AppHeader from './components/Header';
 import 'antd/dist/antd.css';
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import { Layout, Menu } from 'antd';
 import './App.css';
@@ -16,12 +17,14 @@ interface IState {
 	isLoggedIn: boolean;
 }
 
+export const queryClient = new QueryClient();
+
 export default class App extends React.Component<{}, IState> {
 	constructor(props: {}) {
 		super(props);
 
 		this.state = {
-			content: 'taggerInterface',
+			content: 'articleList',
 			isLoggedIn: false
 		};
 		setHeaders();
@@ -65,27 +68,29 @@ export default class App extends React.Component<{}, IState> {
 
 	render() {
 		return (
-			<Layout>
-				<AppHeader loginHandler={this.handleLogged} />
+			<QueryClientProvider client={queryClient}>
 				<Layout>
-					<Menu mode="horizontal" theme="light" selectedKeys={[ this.state.content ]}>
-						<Menu.Item
-							title="View the list of currently available articles."
-							key="articleList"
-							onClick={this.handleMenuClick}
-						>
-							Article list
-						</Menu.Item>
-						<Menu.Item title="Hello two!" key="notImplemented" onClick={this.handleMenuClick}>
-							Analysis
-						</Menu.Item>
-						<Menu.Item title="Hello two!" key="taggerInterface" onClick={this.handleMenuClick}>
-							Tagger Dashboard
-						</Menu.Item>
-					</Menu>
-					<Layout style={{ padding: '12px 24px 24px' }}>{this.getActiveContent()}</Layout>
+					<AppHeader loginHandler={this.handleLogged} />
+					<Layout>
+						<Menu mode="horizontal" theme="light" selectedKeys={[ this.state.content ]}>
+							<Menu.Item
+								title="View the list of currently available articles."
+								key="articleList"
+								onClick={this.handleMenuClick}
+							>
+								Article list
+							</Menu.Item>
+							<Menu.Item title="Hello two!" key="notImplemented" onClick={this.handleMenuClick}>
+								Analysis
+							</Menu.Item>
+							<Menu.Item title="Hello two!" key="taggerInterface" onClick={this.handleMenuClick}>
+								Tagger Dashboard
+							</Menu.Item>
+						</Menu>
+						<Layout style={{ padding: '12px 24px 24px' }}>{this.getActiveContent()}</Layout>
+					</Layout>
 				</Layout>
-			</Layout>
+			</QueryClientProvider>
 		);
 	}
 }

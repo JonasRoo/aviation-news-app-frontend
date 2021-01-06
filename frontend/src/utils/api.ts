@@ -26,7 +26,6 @@ export const getCurrentUser = (callback: (user?: IUser) => void): void => {
 	api
 		.get('/auth/user/')
 		.then((res) => {
-			console.log(res);
 			callback({
 				id: res.data.id,
 				username: res.data.username,
