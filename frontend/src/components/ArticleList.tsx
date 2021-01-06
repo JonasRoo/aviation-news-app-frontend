@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Moment } from 'moment';
-import { Empty, Pagination, message } from 'antd';
+import { Empty, Pagination, message, Spin } from 'antd';
 import { Article } from './Article';
 import { Filters } from './Filters';
 import { useQuery } from 'react-query';
@@ -58,7 +58,12 @@ const ArticleList: React.FC<{}> = () => {
 	);
 
 	if (isLoading) {
-		return emptyElement;
+		return (
+			<div>
+				{filterElement}
+				<Spin />
+			</div>
+		);
 	}
 
 	if (error || !data) {
@@ -74,7 +79,7 @@ const ArticleList: React.FC<{}> = () => {
 			})}
 			<Pagination
 				total={data.count}
-				showTotal={(total) => `${total} articles`}
+				showTotal={(total) => `${total.toLocaleString()} articles`}
 				showSizeChanger
 				defaultPageSize={filters.pageSize}
 				pageSizeOptions={[ '10', '25', '50', '100', '250', '500' ]}

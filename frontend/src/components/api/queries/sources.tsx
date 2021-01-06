@@ -1,16 +1,10 @@
 import api from '../../../utils/api';
-import { AxiosResponse } from 'axios';
 import { ISource } from '../../SourcesFilter';
 
-export interface ISourceResults extends AxiosResponse {
-	results: ISource[];
-}
-
 const endpointUrl = 'articles/sources/';
-const fetchSources = async (): Promise<ISourceResults> => {
-	console.log('In our little function');
+const fetchSources = async (): Promise<ISource[]> => {
 	const response = await api.get(endpointUrl);
-	return response.data as ISourceResults;
+	return response.data as ISource[];
 };
 
 export { fetchSources };

@@ -2,6 +2,7 @@ import api from '../../../utils/api';
 import { Props as IArticle } from '../../Article';
 import { AxiosResponse } from 'axios';
 import { FilterType } from '../../ArticleList';
+import moment from 'moment';
 
 export interface IArticleResults extends AxiosResponse {
 	count: number;
@@ -17,8 +18,8 @@ const fetchArticles = async (queryParams: FilterType): Promise<IArticleResults> 
 			pageSize: queryParams.pageSize,
 			search: queryParams.search.join(','),
 			sources: queryParams.sources.join(','),
-			date_after: queryParams.date_after ? queryParams.date_after : '',
-			date_before: queryParams.date_before ? queryParams.date_after : ''
+			date_after: queryParams.date_after ? moment(queryParams.date_after).format('YYYY-MM-DD') : '',
+			date_before: queryParams.date_before ? moment(queryParams.date_before).format('YYYY-MM-DD') : ''
 		}
 	});
 	// console.log(response);
