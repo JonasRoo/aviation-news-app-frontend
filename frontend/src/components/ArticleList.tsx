@@ -3,7 +3,7 @@ import { Moment } from 'moment';
 import { Empty, Pagination, message, Spin } from 'antd';
 import { Article } from './Article';
 import { Filters } from './Filters';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { fetchArticles } from './api/queries/articles';
 
 export type FilterType = {
@@ -31,8 +31,8 @@ const ArticleList: React.FC<{}> = () => {
 	});
 
 	const [ onlyHearted, setOnlyHearted ] = useState<boolean>(false);
-	const [ forceRefetchVar, setForceRefetchVar ] = useState<number>(Math.random());
 
+	const queryClient = useQueryClient();
 	const updateFilters = (newFilters: FilterFieldType): void => {
 		setFilters({
 			...filters,
@@ -40,9 +40,13 @@ const ArticleList: React.FC<{}> = () => {
 		});
 	};
 
+	const handleHeartOnArticleClick = (): void => {
+		queryClient.invalidateQueries('articles');
+	};
+
 	const updateOnlyHearted = (hearted: boolean): void => {
 		setOnlyHearted(hearted);
-		setForceRefetchVar(Math.random());
+		queryClient.invalidateQueries('articles');
 	};
 
 	const onPaginationChange = (page: number, pageSize?: number): void => {
@@ -53,13 +57,13 @@ const ArticleList: React.FC<{}> = () => {
 		});
 	};
 	const { isLoading, data, error } = useQuery(
-		[ 'articles', filters, onlyHearted, forceRefetchVar ],
+		[ 'articles', { filters: filters, onlyHearted: onlyHearted } ],
 		() => fetchArticles(filters, onlyHearted),
 		{
 			keepPreviousData: true,
 			retry: 1,
-			cacheTime: 0,
-			staleTime: 3.6e6 // an hour
+			staleTime: 5
+			// staleTime: 3.6e6 // an hour,
 		}
 	);
 
@@ -91,7 +95,7 @@ const ArticleList: React.FC<{}> = () => {
 			<div>{filterElement}</div>
 			{data.results.map((article, idx) => {
 				if (!onlyHearted || (onlyHearted && article.hearted)) {
-					return <Article key={idx} {...article} />;
+					return <Article key={idx} {...article} heartActionHandler={handleHeartOnArticleClick} />;
 				}
 				return null;
 			})}

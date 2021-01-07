@@ -19,6 +19,7 @@ export interface Props {
 	source_icon?: string;
 	source_name?: string;
 	hearted?: boolean;
+	heartActionHandler: () => void;
 }
 
 export const Article: React.FC<Props> = (props) => {
@@ -30,6 +31,7 @@ export const Article: React.FC<Props> = (props) => {
 			.post(`articles/${props.pk}/heart/`)
 			.then((res) => {
 				setIsHearted(!isHearted);
+				props.heartActionHandler();
 				message.success(res.data.message);
 			})
 			.catch((err) => {
