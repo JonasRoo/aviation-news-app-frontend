@@ -1,4 +1,4 @@
-import api from '../../../utils/api';
+import api from '../api';
 import { ISource } from '../../SourcesFilter';
 
 const endpointUrl = 'articles/sources/';

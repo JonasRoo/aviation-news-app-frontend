@@ -1,4 +1,4 @@
-import api from '../../../utils/api';
+import api from '../api';
 import { Props as IArticle } from '../../Article';
 import { AxiosResponse } from 'axios';
 import { FilterType } from '../../ArticleList';
