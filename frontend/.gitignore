@@ -29,6 +29,3 @@ react-app-env.d.ts
 .env
 .env.prod
 .env.local
-
-# redis
-dump.rdb
