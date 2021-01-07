@@ -33,7 +33,6 @@ export default class TaggerInterface extends React.PureComponent<{}> {
 			<div>
 				<PageHeader
 					title="Tagging session: 22325zsd8a8w"
-					// ghost={false}
 					extra={[
 						<Button key="prev" shape="round" type="primary" icon={<LeftOutlined />} />,
 						<Button key="next" shape="round" type="primary" icon={<RightOutlined />} />

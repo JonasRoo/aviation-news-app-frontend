@@ -7,7 +7,7 @@ import { Layout, Menu } from 'antd';
 import './App.css';
 import ArticleList from './components/ArticleList';
 import LoginRequiredWrapper from './components/wrappers/LoginRequiredWrapper';
-import { setHeaders } from './utils/api';
+import { setHeaders } from './components/api/api';
 import TaggerInterface from './components/containers/TaggerInterface';
 
 type activeContent = 'articleList' | 'notImplemented' | 'taggerInterface';

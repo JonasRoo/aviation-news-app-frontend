@@ -1,7 +1,7 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Button, Form, Popover, Input, message, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
-import api, { setHeaders, getCurrentUser } from '../utils/api';
+import api, { setHeaders, getCurrentUser } from './api/api';
 
 interface ILoginInfo {
 	username: string;

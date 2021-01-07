@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import './style/Article.css';
 import { HeartTwoTone, StopTwoTone } from '@ant-design/icons';
-import api from '../utils/api';
+import api from './api/api';
 
 const { Meta } = Card;
 
