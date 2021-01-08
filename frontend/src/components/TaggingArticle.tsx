@@ -33,24 +33,21 @@ export const TaggingArticle: React.FC<Props> = (props) => {
 		</Popover>
 	);
 
-	const onTextChange = () => {
-		console.log('changed!');
-	};
-
 	return (
 		<div className="card">
 			<Card
 				title={<TaggableText text={props.title} />}
-				style={{ borderRadius: '10px' }}
+				style={{ borderRadius: '10px', minWidth: '50%' }}
 				extra={extraField}
-				onClick={onTextChange}
 			>
 				<Meta
 					style={{ fontSize: '20px' }}
 					description={
-						<div>
-							<TaggableText text={props.description} />
-						</div>
+						props.description && (
+							<div>
+								<TaggableText text={props.description} />
+							</div>
+						)
 					}
 				/>
 			</Card>

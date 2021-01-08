@@ -24,7 +24,7 @@ export default class App extends React.Component<{}, IState> {
 		super(props);
 
 		this.state = {
-			content: 'articleList',
+			content: 'taggerInterface',
 			isLoggedIn: false
 		};
 		setHeaders();

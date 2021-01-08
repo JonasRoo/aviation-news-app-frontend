@@ -1,7 +1,9 @@
+import React from 'react';
+
 interface Props {
-	text?: string;
+	text: string;
 }
 
 export const TaggableText: React.FC<Props> = (props) => {
-	return <div>{props.text}</div>;
+	return <span>{props.text}</span>;
 };

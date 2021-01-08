@@ -21,7 +21,7 @@
 }
 
 .site-layout-background {
-	background: #fff;
+	background: inherit;
 }
 
 html,
