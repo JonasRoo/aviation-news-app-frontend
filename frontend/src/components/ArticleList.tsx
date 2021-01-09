@@ -36,7 +36,8 @@ const ArticleList: React.FC<{}> = () => {
 	const updateFilters = (newFilters: FilterFieldType): void => {
 		setFilters({
 			...filters,
-			...newFilters
+			...newFilters,
+			page: 1
 		});
 	};
 
