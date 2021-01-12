@@ -9,7 +9,10 @@ interface Props {
 }
 
 export const EntityTypeButtonGroup: React.FC<Props> = (props) => {
-	const { isLoading, data, error } = useQuery('entityTypes', fetchEntityTypes);
+	const { isLoading, data, error } = useQuery('entityTypes', fetchEntityTypes, {
+		retry: 1,
+		staleTime: 3.6e6 // 1 hour
+	});
 
 	const handleRadioChange = (e: RadioChangeEvent): void => {
 		console.log(e.target.value);
@@ -17,11 +20,13 @@ export const EntityTypeButtonGroup: React.FC<Props> = (props) => {
 	};
 
 	if (isLoading) {
+		console.log('checking for loading...');
 		return <Spin />;
 	}
 
 	if (error) {
 		message.error('Error fetching available entity types from API!');
+		return <div />;
 	}
 
 	if (!data) {
