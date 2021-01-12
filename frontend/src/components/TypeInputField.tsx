@@ -6,6 +6,8 @@ interface Props {
 	entities: IEntityType[];
 }
 
-const TagTableEntry: React.FC<Props> = (props) => {
+const TypeInputField: React.FC<Props> = (props) => {
 	return <div />;
 };
+
+export default TypeInputField;
